@@ -1,6 +1,6 @@
 ---
 title: "Project Title"
-author: "By Group 3"
+author: "By Group 3 member"
 date: "29/03/2021"
 time: "11.17"
 
