@@ -1,0 +1,134 @@
+---
+title: "Project Title"
+author: "By ..."
+date: "dd/mm/yyyy"
+
+output: html_document
+keep_tex: true
+fig_caption: yes
+geometry: margin=1in
+fontsize: 11pt
+
+bibliography: biblio.bib
+
+abstract: "Include your abstract here ...."
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, fig.path='Figs/', fig.width=6, fig.height=4)
+
+```
+
+```{r eval=TRUE}
+# Load the libraries you will use for the mini-project report
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+```
+
+
+# Introduction
+
+This section must convey two key pieces of information: (i) the background information necessary to place the report in context and (ii) the clear and complete specification of the purpose(s).
+
+
+# Methods
+
+* This section should describe: (1) what is studied, (2) how the data are observed, and (3) how the data are analysed.
+
+* Feel free to include subsections.
+
+* To include equations, you can refer to the R-Markdown files used during  the tutorials and practicals.
+
+* Being this mini-project report structured as a paper, you should not print the R code here.
+However, you are asked to specify the R code (including the model code in NIMBLE) in this R-Markdown file, so that the reproducibility of your results can be assessed. 
+
+* In the global chunk options of this template, we set (`echo=FALSE`) so the code will not be shown in the final document. However, if you need to change it, you can modify the option in the initial line of the code chunks. Examples are provided in the tutorials and practicals compiled with R-Markdown. Here some further examples:
+
+(i) As in the global chunk options we set `echo=FALSE`, the R code will not be shown in the final document and only the plot will be displyed: 
+
+```{r eval=TRUE, echo=FALSE, fig.cap="Figure 1: Plot of x and y"}
+set.seed(123)
+x <- rnorm(300)
+y <- 2*x + rnorm(300)
+plot(x, y)
+```
+
+(ii) However, if you want to change it, you can modify the current line of the code chunk setting `echo=TRUE` and the R code will be displayed:
+
+```{r eval=TRUE, echo=TRUE, fig.cap="Figure 1: Plot of x and y"}
+set.seed(123)
+x <- rnorm(300)
+y <- 2*x + rnorm(300)
+plot(x, y)
+```
+
+(iii) Moreover, if you set `include=FALSE` in the line of the code chunk, it indicates that the chunk will be evaluated, but neither the code nor its output will be displayed.
+
+```{r include=FALSE}
+set.seed(123)
+x <- rnorm(300)
+y <- 2*x + rnorm(300)
+plot(x, y)
+```
+
+
+# Results
+
+* This section should organize the results so that they follow a logical sequence. 
+Table and figures are precious tools to communicate your results but they should not repeat the information reported in the text. 
+
+* To include plots/maps and tables, you can refer to the R-Markdown files used during the tutorials and practicals of the module.
+In particular, for tables you can use the `kable()` function and the `kableExtra` package.
+For plots/maps, feel free to choose the appropriate width and height (in inches). To modify the dimensions of the plots specified in the global chunk options, you can use options like `fig.width` and `fig.height` in the line of the code chunk. 
+
+
+# Discussion and conclusion
+
+This section should synthetically discuss your answer to the research question and possibly how your findings compare or contrast with previous results. You can refer to the potential implications and future perspectives and/or application of present work. 
+
+
+# Appendix
+
+Include here the supplementary material, such as the NIMBLE model code (this is mandatory) or diagnostic plots or additional exploratory analyses. 
+The appendix is an extra session, additional to the 5-pages of actual mini-project report. 
+To include the model, you can copy your model from the .txt file, and past it into the code chunk, setting `eval=FALSE` and `echo=TRUE`. Here an example:
+
+```{r eval=FALSE, echo=TRUE}
+model
+{
+  for (i in 1 : N) {
+      O[i]  ~ dpois(mu[i])
+      log(mu[i]) <- log(E[i]) + alpha + theta[i] + phi[i]
+      theta[i] ~ dnorm(0, prec.theta)                        
+      RR[i] <- exp(alpha + theta[i] + phi[i])              
+      resRR[i] <- exp(theta[i]+ phi[i])                    
+      proba.resRR[i] <- step(resRR[i]-1)
+  }
+  
+  phi[1:N] ~ car.normal(adj[], weights[], num[], prec.phi)
+
+  alpha  ~ dflat()                                
+  overallRR <- exp(alpha)                         
+
+  prec.theta ~ dgamma(1, 0.01)
+  sigma2.theta <- 1/prec.theta                             
+  
+  prec.phi ~ dgamma(2, 1)                     
+  sigma2.phi <- 1/prec.phi                           
+}
+```
+
+# References 
+
+* You should update the attached file `biblio.bib` with your references.
+
+* The references cited in the mini-project report will be automatically inserted after this header. 
+
+
+
+
+
+
+
